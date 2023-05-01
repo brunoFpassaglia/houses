@@ -1,5 +1,6 @@
-abstract class HouseRulesUseCase {
+abstract class HouseRulesRepository {
   getHouseRules();
+  createHouseRules();
   showHouseRules();
   updateHouseRules();
   deleteHouseRules();

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:houses/entities/house_rules.dart';
+import 'package:houses/domain/entities/house_rules.dart';
 
 class HouseRulesModel implements HouseRules {
   @override
@@ -41,4 +41,10 @@ class HouseRulesModel implements HouseRules {
 
   factory HouseRulesModel.fromJson(String source) =>
       HouseRulesModel.fromMap(json.decode(source));
+
+  @override
+  fromMap(Map<String, dynamic> map) {
+    // TODO: implement fromMap
+    throw UnimplementedError();
+  }
 }
