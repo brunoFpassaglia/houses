@@ -1,7 +1,7 @@
 abstract class HouseRules {
   final int id;
   final String name;
-  final bool active;
+  final int active;
   final int order;
 
   HouseRules({

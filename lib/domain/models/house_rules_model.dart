@@ -8,7 +8,7 @@ class HouseRulesModel implements HouseRules {
   @override
   final String name;
   @override
-  final bool active;
+  final int active;
   @override
   final int order;
 
@@ -41,10 +41,4 @@ class HouseRulesModel implements HouseRules {
 
   factory HouseRulesModel.fromJson(String source) =>
       HouseRulesModel.fromMap(json.decode(source));
-
-  @override
-  fromMap(Map<String, dynamic> map) {
-    // TODO: implement fromMap
-    throw UnimplementedError();
-  }
 }

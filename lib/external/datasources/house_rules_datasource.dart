@@ -14,7 +14,7 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
 
   HouseRulesDatasourceImpl(this._http);
 
-  Map<String, String> _headers = {
+  final Map<String, String> _headers = {
     'Authorization':
         'Bearer 40fe071962846075452a4f6123ae71697463cad20f51e237e2035b41af0513d8',
   };
@@ -22,12 +22,11 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
   @override
   Future<HouseRules> createHouseRules(HouseRules houseRules) async {
     try {
-      var response = await _http.post(Uri.https(CREATEHOUSERULES),
+      var response = await _http.post(Uri.parse(CREATEHOUSERULES),
           body: BaseHouseRulesRequest(houseRules as HouseRulesModel).toJson(),
           headers: _headers);
       if (response.statusCode != 200) throw response;
-      var body =
-          BaseHouseRulesResponseResponse.fromJson(json.decode(response.body));
+      var body = BaseHouseRulesResponseResponse.fromJson(response.body);
       return body.data;
     } catch (e) {
       rethrow;
@@ -38,7 +37,7 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
   Future<void> deleteHouseRules(HouseRules houseRules) async {
     try {
       var response = await _http.delete(
-          Uri.https('$DELETEHOUSERULES/${houseRules.id}'),
+          Uri.parse('$DELETEHOUSERULES/${houseRules.id}'),
           headers: _headers);
       if (response.statusCode != 200) throw response;
       return;
@@ -51,11 +50,10 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
   Future<List<HouseRules>> getHouseRules() async {
     try {
       var response =
-          await _http.get(Uri.https(GETHOUSERULES), headers: _headers);
+          await _http.get(Uri.parse(GETHOUSERULES), headers: _headers);
       if (response.statusCode != 200) throw response;
-      var body =
-          GetHouseRulesResponseResponse.fromJson(json.decode(response.body));
-      return body.data;
+      var body = GetHouseRulesResponseResponse.fromJson(response.body);
+      return body.entities;
     } catch (e) {
       rethrow;
     }
@@ -65,11 +63,10 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
   Future<HouseRules> showHouseRules(HouseRules houseRules) async {
     try {
       var response = await _http.get(
-          Uri.https('$SHOWHOUSERULES/${houseRules.id}'),
+          Uri.parse('$SHOWHOUSERULES/${houseRules.id}'),
           headers: _headers);
       if (response.statusCode != 200) throw response;
-      var body =
-          BaseHouseRulesResponseResponse.fromJson(json.decode(response.body));
+      var body = BaseHouseRulesResponseResponse.fromJson(response.body);
       return body.data;
     } catch (e) {
       rethrow;
@@ -80,12 +77,11 @@ class HouseRulesDatasourceImpl implements HouseRulesDatasource {
   Future<HouseRules> updateHouseRules(HouseRules houseRules) async {
     try {
       var response = await _http.put(
-          Uri.https('$GETHOUSERULES/${houseRules.id}'),
+          Uri.parse('$GETHOUSERULES/${houseRules.id}'),
           body: BaseHouseRulesRequest(houseRules as HouseRulesModel).toJson(),
           headers: _headers);
       if (response.statusCode != 200) throw response;
-      var body =
-          BaseHouseRulesResponseResponse.fromJson(json.decode(response.body));
+      var body = BaseHouseRulesResponseResponse.fromJson(response.body);
       return body.data;
     } catch (e) {
       rethrow;
