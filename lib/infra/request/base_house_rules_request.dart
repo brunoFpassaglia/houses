@@ -9,13 +9,13 @@ class BaseHouseRulesRequest {
 
   Map<String, dynamic> toMap() {
     return {
-      'body': house_rules.toMap(),
+      'house_rules': house_rules.toMap(),
     };
   }
 
   factory BaseHouseRulesRequest.fromMap(Map<String, dynamic> map) {
     return BaseHouseRulesRequest(
-      HouseRulesModel.fromMap(map['body']),
+      HouseRulesModel.fromMap(map['house_rules']),
     );
   }
 

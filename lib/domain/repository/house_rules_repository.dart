@@ -1,7 +1,9 @@
+import 'package:houses/domain/entities/house_rules.dart';
+
 abstract class HouseRulesRepository {
-  getHouseRules();
-  createHouseRules();
-  showHouseRules();
-  updateHouseRules();
-  deleteHouseRules();
+  Future<List<HouseRules>> getHouseRules();
+  Future<HouseRules> createHouseRules(HouseRules houseRules);
+  Future<HouseRules> showHouseRules(HouseRules houseRules);
+  Future<HouseRules> updateHouseRules(HouseRules houseRules);
+  Future<void> deleteHouseRules(HouseRules houseRules);
 }

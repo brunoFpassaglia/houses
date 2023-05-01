@@ -5,8 +5,8 @@ import 'package:houses/infra/response/base_house_rules_response.dart';
 
 abstract class HouseRulesDatasource {
   Future<List<HouseRules>> getHouseRules();
-  Future<BaseHouseRulesResponseResponse> createHouseRules();
-  Future<BaseHouseRulesResponseResponse> showHouseRules();
-  Future<BaseHouseRulesResponseResponse> updateHouseRules();
-  Future<void> deleteHouseRules();
+  Future<HouseRules> createHouseRules(HouseRules houseRules);
+  Future<HouseRules> showHouseRules(HouseRules houseRules);
+  Future<HouseRules> updateHouseRules(HouseRules houseRules);
+  Future<void> deleteHouseRules(HouseRules houseRules);
 }

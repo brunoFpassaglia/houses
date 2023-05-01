@@ -1,11 +1,12 @@
+import 'package:houses/domain/entities/house_rules.dart';
 import 'package:houses/domain/repository/house_rules_repository.dart';
 
 abstract class HouseRulesUseCase {
-  getHouseRules();
-  createHouseRules();
-  showHouseRules();
-  updateHouseRules();
-  deleteHouseRules();
+  Future<List<HouseRules>> getHouseRules();
+  Future<HouseRules> createHouseRules(HouseRules houseRules);
+  Future<HouseRules> showHouseRules(HouseRules houseRules);
+  Future<HouseRules> updateHouseRules(HouseRules houseRules);
+  Future<void> deleteHouseRules(HouseRules houseRules);
 }
 
 class HouseRulesUseCaseImpl implements HouseRulesUseCase {
@@ -14,32 +15,27 @@ class HouseRulesUseCaseImpl implements HouseRulesUseCase {
   HouseRulesUseCaseImpl(this._repo);
 
   @override
-  deleteHouseRules() {
-    // TODO: implement deleteHouseRules
-    throw UnimplementedError();
+  Future<HouseRules> createHouseRules(HouseRules houseRules) async {
+    return await _repo.createHouseRules(houseRules);
   }
 
   @override
-  getHouseRules() {
-    // TODO: implement getHouseRules
-    throw UnimplementedError();
+  Future<void> deleteHouseRules(HouseRules houseRules) async {
+    return await _repo.deleteHouseRules(houseRules);
   }
 
   @override
-  showHouseRules() {
-    // TODO: implement showHouseRules
-    throw UnimplementedError();
+  Future<List<HouseRules>> getHouseRules() async {
+    return await _repo.getHouseRules();
   }
 
   @override
-  updateHouseRules() {
-    // TODO: implement updateHouseRules
-    throw UnimplementedError();
+  Future<HouseRules> showHouseRules(HouseRules houseRules) async {
+    return await _repo.showHouseRules(houseRules);
   }
 
   @override
-  createHouseRules() {
-    // TODO: implement createHouseRules
-    throw UnimplementedError();
+  Future<HouseRules> updateHouseRules(HouseRules houseRules) async {
+    return await _repo.updateHouseRules(houseRules);
   }
 }
