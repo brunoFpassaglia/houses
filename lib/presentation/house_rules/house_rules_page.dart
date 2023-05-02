@@ -19,11 +19,16 @@ class HouseRulesPage extends StatefulWidget {
 class _HouseRulesPageState extends State<HouseRulesPage> {
   final HouseRulesBloc _houseRulesBloc = Modular.get<HouseRulesBloc>();
   late bool isGrid;
+  late ScrollController _scrollController;
+  late Widget lastItem;
 
   @override
   void initState() {
     _houseRulesBloc.add(LoadHouseRulesEvent());
     isGrid = true;
+    _scrollController = new ScrollController(initialScrollOffset: 5.0)
+      ..addListener(_scrollListener);
+    lastItem = CircularProgressIndicator();
     super.initState();
   }
 
@@ -77,6 +82,11 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
                     state is HouseRulesDeleteError) {
                   _houseRulesBloc.add(LoadHouseRulesEvent());
                 }
+                if (state is HouseRulesLoadingMoreError) {
+                  setState(() {
+                    lastItem = const Text('No more itens');
+                  });
+                }
               },
               buildWhen: (previous, current) {
                 return current is HouseRulesGetSuccess ||
@@ -87,6 +97,7 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
                 if (state is HouseRulesGetSuccess) {
                   return !isGrid
                       ? ListView.builder(
+                          controller: _scrollController,
                           itemCount: state.houseRules.length + 1,
                           itemBuilder: (context, index) =>
                               AnimationConfiguration.staggeredList(
@@ -95,13 +106,7 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
                             child: ScaleAnimation(
                               child: FadeInAnimation(
                                 child: index == state.houseRules.length
-                                    ? IconButton(
-                                        onPressed: () {
-                                          _houseRulesBloc
-                                              .add(LoadMoreHouseRulesEvent());
-                                        },
-                                        icon: const Icon(
-                                            Icons.more_horiz_rounded))
+                                    ? lastItem
                                     : HouseRulesCard(
                                         houseRules: state.houseRules[index]),
                               ),
@@ -109,30 +114,24 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
                           ),
                         )
                       : GridView.builder(
+                          controller: _scrollController,
                           itemCount: state.houseRules.length + 1,
                           gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  childAspectRatio: 1, maxCrossAxisExtent: 150),
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                                  childAspectRatio: 1,
+                                  maxCrossAxisExtent:
+                                      MediaQuery.of(context).size.width / 2),
                           itemBuilder: (context, index) =>
                               AnimationConfiguration.staggeredGrid(
                             position: index,
                             duration: const Duration(milliseconds: 200),
-                            columnCount: 3,
+                            columnCount: 2,
                             child: ScaleAnimation(
                               child: FadeInAnimation(
                                 child: index == state.houseRules.length
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                _houseRulesBloc.add(
-                                                    LoadMoreHouseRulesEvent());
-                                              },
-                                              icon: const Icon(
-                                                  Icons.more_horiz_rounded)),
-                                        ],
+                                    ? Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: lastItem,
                                       )
                                     : HouseRulesCard(
                                         houseRules: state.houseRules[index]),
@@ -164,6 +163,15 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange &&
+        lastItem is CircularProgressIndicator) {
+      _houseRulesBloc.add(LoadMoreHouseRulesEvent());
+    }
   }
 
   Future _showNewPopUP() async {

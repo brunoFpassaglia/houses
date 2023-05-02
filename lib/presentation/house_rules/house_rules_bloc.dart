@@ -38,7 +38,7 @@ class HouseRulesBloc extends Bloc<HouseRulesEvent, HouseRulesState> {
       ];
       emit(HouseRulesGetSuccess(newHouseRules));
     } catch (_) {
-      emit(HouseRulesGetError('Error loading house rules'));
+      emit(HouseRulesLoadingMoreError());
     }
   }
 
