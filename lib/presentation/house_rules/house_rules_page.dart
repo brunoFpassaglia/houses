@@ -51,50 +51,58 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
           },
           child: BlocProvider.value(
             value: _houseRulesBloc,
-            child: BlocBuilder<HouseRulesBloc, HouseRulesState>(
-                bloc: _houseRulesBloc,
-                builder: (context, state) {
-                  if (state is HouseRulesSucess) {
-                    return !isGrid
-                        ? ListView.builder(
-                            itemCount: state.houseRules.length,
-                            itemBuilder: (context, index) =>
-                                AnimationConfiguration.staggeredList(
-                              position: index,
-                              duration: const Duration(milliseconds: 200),
-                              child: ScaleAnimation(
-                                child: FadeInAnimation(
-                                  child: HouseRulesCard(
-                                      houseRules: state.houseRules[index]),
-                                ),
-                              ),
+            child: BlocConsumer<HouseRulesBloc, HouseRulesState>(
+                listener: (context, state) {
+              if (state is HouseRulesSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                _houseRulesBloc.add(LoadHouseRulesEvent());
+              }
+            }, builder: (context, state) {
+              if (state is HouseRulesGetSuccess) {
+                return !isGrid
+                    ? ListView.builder(
+                        itemCount: state.houseRules.length,
+                        itemBuilder: (context, index) =>
+                            AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 200),
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              child: HouseRulesCard(
+                                  houseRules: state.houseRules[index]),
                             ),
-                          )
-                        : GridView.builder(
-                            itemCount: state.houseRules.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    childAspectRatio: 1,
-                                    maxCrossAxisExtent: 150),
-                            itemBuilder: (context, index) =>
-                                AnimationConfiguration.staggeredGrid(
-                              position: index,
-                              duration: const Duration(milliseconds: 200),
-                              columnCount: 3,
-                              child: ScaleAnimation(
-                                child: FadeInAnimation(
-                                  child: HouseRulesCard(
-                                      houseRules: state.houseRules[index]),
-                                ),
-                              ),
+                          ),
+                        ),
+                      )
+                    : GridView.builder(
+                        itemCount: state.houseRules.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                childAspectRatio: 1, maxCrossAxisExtent: 150),
+                        itemBuilder: (context, index) =>
+                            AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          duration: const Duration(milliseconds: 200),
+                          columnCount: 3,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              child: HouseRulesCard(
+                                  houseRules: state.houseRules[index]),
                             ),
-                          );
-                  }
-                  if (state is HouseRulesError) {
-                    return const Text('Deu ruim');
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                }),
+                          ),
+                        ),
+                      );
+              }
+              if (state is HouseRulesGetError) {
+                return Center(child: Text(state.error));
+              }
+              return const Center(child: CircularProgressIndicator());
+            }),
           ),
         ),
       ),
