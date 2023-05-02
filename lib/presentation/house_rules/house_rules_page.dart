@@ -54,74 +54,106 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
           child: BlocProvider.value(
             value: _houseRulesBloc,
             child: BlocConsumer<HouseRulesBloc, HouseRulesState>(
-                listener: (context, state) {
-              if (state is HouseRulesSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                _houseRulesBloc.add(LoadHouseRulesEvent());
-              }
-              if (state is HouseRulesCreateError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                _houseRulesBloc.add(LoadHouseRulesEvent());
-              }
-              if (state is HouseRulesUpdateError ||
-                  state is HouseRulesDeleteError) {
-                _houseRulesBloc.add(LoadHouseRulesEvent());
-              }
-            }, builder: (context, state) {
-              if (state is HouseRulesGetSuccess) {
-                return !isGrid
-                    ? ListView.builder(
-                        itemCount: state.houseRules.length,
-                        itemBuilder: (context, index) =>
-                            AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 200),
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              child: HouseRulesCard(
-                                  houseRules: state.houseRules[index]),
+              listener: (context, state) {
+                if (state is HouseRulesSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  _houseRulesBloc.add(LoadHouseRulesEvent());
+                }
+                if (state is HouseRulesCreateError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.error),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  _houseRulesBloc.add(LoadHouseRulesEvent());
+                }
+                if (state is HouseRulesUpdateError ||
+                    state is HouseRulesDeleteError) {
+                  _houseRulesBloc.add(LoadHouseRulesEvent());
+                }
+              },
+              buildWhen: (previous, current) {
+                return current is HouseRulesGetSuccess ||
+                    current is HouseRulesGetError ||
+                    current is HouseRulesGetLoading;
+              },
+              builder: (context, state) {
+                if (state is HouseRulesGetSuccess) {
+                  return !isGrid
+                      ? ListView.builder(
+                          itemCount: state.houseRules.length + 1,
+                          itemBuilder: (context, index) =>
+                              AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 200),
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: index == state.houseRules.length
+                                    ? IconButton(
+                                        onPressed: () {
+                                          _houseRulesBloc
+                                              .add(LoadMoreHouseRulesEvent());
+                                        },
+                                        icon: const Icon(
+                                            Icons.more_horiz_rounded))
+                                    : HouseRulesCard(
+                                        houseRules: state.houseRules[index]),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    : GridView.builder(
-                        itemCount: state.houseRules.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                                childAspectRatio: 1, maxCrossAxisExtent: 150),
-                        itemBuilder: (context, index) =>
-                            AnimationConfiguration.staggeredGrid(
-                          position: index,
-                          duration: const Duration(milliseconds: 200),
-                          columnCount: 3,
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              child: HouseRulesCard(
-                                  houseRules: state.houseRules[index]),
+                        )
+                      : GridView.builder(
+                          itemCount: state.houseRules.length + 1,
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  childAspectRatio: 1, maxCrossAxisExtent: 150),
+                          itemBuilder: (context, index) =>
+                              AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            duration: const Duration(milliseconds: 200),
+                            columnCount: 3,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: index == state.houseRules.length
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                _houseRulesBloc.add(
+                                                    LoadMoreHouseRulesEvent());
+                                              },
+                                              icon: const Icon(
+                                                  Icons.more_horiz_rounded)),
+                                        ],
+                                      )
+                                    : HouseRulesCard(
+                                        houseRules: state.houseRules[index]),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-              }
-              if (state is HouseRulesGetError) {
-                return ListView(
-                  children: [
-                    Center(child: Text(state.error)),
-                  ],
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            }),
+                        );
+                }
+                if (state is HouseRulesGetError) {
+                  return ListView(
+                    children: [
+                      Center(child: Text(state.error)),
+                    ],
+                  );
+                }
+                if (state is HouseRulesGetLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                throw Exception('State not supported');
+              },
+            ),
           ),
         ),
       ),

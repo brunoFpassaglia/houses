@@ -31,4 +31,9 @@ class HouseRulesRepositoryImpl implements HouseRulesRepository {
   Future<HouseRules> updateHouseRules(HouseRules houseRules) async {
     return await _datasource.updateHouseRules(houseRules);
   }
+
+  @override
+  Future<List<HouseRules>> loadMoreHouseRules() async {
+    return await _datasource.loadMoreHouseRules();
+  }
 }

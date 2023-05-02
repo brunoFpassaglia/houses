@@ -61,3 +61,5 @@ class HouseRulesDeleteError extends HouseRulesError {
 }
 
 class HouseRulesDeleteLoading extends HouseRulesLoading {}
+
+class HouseRulesLoadingMore extends HouseRulesLoading {}

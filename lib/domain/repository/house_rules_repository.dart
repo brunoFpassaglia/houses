@@ -6,4 +6,5 @@ abstract class HouseRulesRepository {
   Future<HouseRules> showHouseRules(HouseRules houseRules);
   Future<HouseRules> updateHouseRules(HouseRules houseRules);
   Future<void> deleteHouseRules(HouseRules houseRules);
+  Future<List<HouseRules>> loadMoreHouseRules();
 }

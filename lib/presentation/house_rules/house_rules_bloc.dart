@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:houses/domain/entities/house_rules.dart';
 import 'package:houses/domain/models/house_rules_model.dart';
@@ -13,6 +15,7 @@ class HouseRulesBloc extends Bloc<HouseRulesEvent, HouseRulesState> {
     on<UpdateHouseRulesEvent>(_onUpdateHouseRulesEvent);
     on<CreateHouseRulesEvent>(_onCreateHouseRulesEvent);
     on<DeleteHouseRulesEvent>(_onDeleteHouseRulesEvent);
+    on<LoadMoreHouseRulesEvent>(_onLoadMoreHouseRulesEvent);
   }
 
   _onLoadHouseRules(HouseRulesEvent event, Emitter emit) async {
@@ -20,6 +23,20 @@ class HouseRulesBloc extends Bloc<HouseRulesEvent, HouseRulesState> {
     try {
       var houseRules = await _useCase.getHouseRules();
       emit(HouseRulesGetSuccess(houseRules));
+    } catch (_) {
+      emit(HouseRulesGetError('Error loading house rules'));
+    }
+  }
+
+  _onLoadMoreHouseRulesEvent(
+      LoadMoreHouseRulesEvent event, Emitter emit) async {
+    try {
+      var houseRules = await _useCase.loadMoreHouseRules();
+      var newHouseRules = [
+        ...(state as HouseRulesGetSuccess).houseRules,
+        ...houseRules,
+      ];
+      emit(HouseRulesGetSuccess(newHouseRules));
     } catch (_) {
       emit(HouseRulesGetError('Error loading house rules'));
     }

@@ -1,8 +1,10 @@
 import 'package:houses/domain/entities/house_rules.dart';
+import 'package:houses/domain/models/house_rules_model.dart';
 import 'package:houses/domain/repository/house_rules_repository.dart';
 
 abstract class HouseRulesUseCase {
   Future<List<HouseRules>> getHouseRules();
+  Future<List<HouseRules>> loadMoreHouseRules();
   Future<HouseRules> createHouseRules(HouseRules houseRules);
   Future<HouseRules> showHouseRules(HouseRules houseRules);
   Future<HouseRules> updateHouseRules(HouseRules houseRules);
@@ -37,5 +39,10 @@ class HouseRulesUseCaseImpl implements HouseRulesUseCase {
   @override
   Future<HouseRules> updateHouseRules(HouseRules houseRules) async {
     return await _repo.updateHouseRules(houseRules);
+  }
+
+  @override
+  Future<List<HouseRules>> loadMoreHouseRules() async {
+    return await _repo.loadMoreHouseRules();
   }
 }

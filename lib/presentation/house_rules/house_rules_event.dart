@@ -24,3 +24,5 @@ class UpdateHouseRulesEvent extends HouseRulesEvent {
 
   UpdateHouseRulesEvent(this.houseRules, this.newName, this.newActive);
 }
+
+class LoadMoreHouseRulesEvent extends HouseRulesEvent {}
