@@ -46,10 +46,8 @@ class HouseRulesCreateSuccess extends HouseRulesSuccess {
   HouseRulesCreateSuccess(this.houseRules) : super('Create successful!');
 }
 
-class HouseRulesCreateError extends HouseRulesState {
-  final String error;
-
-  HouseRulesCreateError(this.error);
+class HouseRulesCreateError extends HouseRulesError {
+  HouseRulesCreateError(super.error);
 }
 
 class HouseRulesCreateLoading extends HouseRulesLoading {}

@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:houses/domain/entities/house_rules.dart';
 import 'package:houses/presentation/house_rules/house_rules_bloc.dart';
 import 'package:houses/presentation/house_rules/house_rules_event.dart';
+import 'package:houses/presentation/house_rules/house_rules_form.dart';
 import 'package:houses/presentation/house_rules/house_rules_state.dart';
 
 class HouseRulesShowPage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _HouseRulesShowPageState extends State<HouseRulesShowPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.red,
               ),
             );
           }
@@ -174,43 +175,19 @@ class _HouseRulesShowPageState extends State<HouseRulesShowPage> {
           return AlertDialog(
             title: const Text('Edit'),
             content: StatefulBuilder(builder: (context, setState) {
-              return Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: _controller,
-                        decoration: const InputDecoration(
-                          alignLabelWithHint: true,
-                          labelText: 'Name',
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          const Text('Active:'),
-                          Switch(
-                            value: active == 1 ? true : false,
-                            onChanged: (value) {
-                              setState(() {
-                                if (value) {
-                                  active = 1;
-                                } else {
-                                  active = 0;
-                                }
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              return HouseRulesForm(
+                formKey: _formKey,
+                controller: _controller,
+                switchValue: active,
+                switchCallback: (value) {
+                  setState(() {
+                    if (value) {
+                      active = 1;
+                    } else {
+                      active = 0;
+                    }
+                  });
+                },
               );
             }),
             actions: [

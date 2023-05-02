@@ -44,7 +44,7 @@ class HouseRulesBloc extends Bloc<HouseRulesEvent, HouseRulesState> {
     try {
       var houseRules = await _useCase.createHouseRules(HouseRulesModel(
           active: event.active, name: event.name, id: 999, order: 999));
-      emit(HouseRulesUpdateSuccess(houseRules));
+      emit(HouseRulesCreateSuccess(houseRules));
     } catch (e) {
       emit(HouseRulesCreateError('Error creating house rules'));
     }
