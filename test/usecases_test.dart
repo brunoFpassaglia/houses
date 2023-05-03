@@ -1,9 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:houses/app_module.dart';
-import 'package:houses/domain/entities/house_rules.dart';
-import 'package:houses/domain/models/house_rules_model.dart';
-import 'package:houses/domain/usecases/house_rules_usecases.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/models/house_rules_model.dart';
+import 'package:houses/feature/house_rules/domain/usecases/house_rules_usecases.dart';
 import 'package:modular_test/modular_test.dart';
 
 void main() {

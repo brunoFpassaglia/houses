@@ -1,6 +1,6 @@
-import 'package:houses/domain/entities/house_rules.dart';
-import 'package:houses/domain/models/house_rules_model.dart';
-import 'package:houses/domain/repository/house_rules_repository.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/models/house_rules_model.dart';
+import 'package:houses/feature/house_rules/domain/repository/house_rules_repository.dart';
 
 abstract class HouseRulesUseCase {
   Future<List<HouseRules>> getHouseRules();

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:houses/domain/entities/house_rules.dart';
-import 'package:houses/domain/models/house_rules_model.dart';
-import 'package:houses/infra/request/base_house_rules_request.dart';
-import 'package:houses/infra/response/base_house_rules_response.dart';
-import 'package:houses/infra/datasources/house_rules_datasource.dart';
-import 'package:houses/infra/response/get_house_rules_response.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/models/house_rules_model.dart';
+import 'package:houses/feature/house_rules/infra/request/base_house_rules_request.dart';
+import 'package:houses/feature/house_rules/infra/response/base_house_rules_response.dart';
+import 'package:houses/feature/house_rules/infra/datasources/house_rules_datasource.dart';
+import 'package:houses/feature/house_rules/infra/response/get_house_rules_response.dart';
 import 'package:houses/routes.dart';
 import 'package:http/http.dart';
 

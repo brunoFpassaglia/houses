@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:houses/domain/models/house_rules_model.dart';
+import 'package:houses/feature/house_rules/domain/models/house_rules_model.dart';
 
 class GetHouseRulesResponseResponse {
   final bool success;

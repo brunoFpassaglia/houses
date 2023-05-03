@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:houses/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
 import 'package:houses/presentation/house_rules/house_rules_show_page.dart';
 
 class HouseRulesCard extends StatelessWidget {

@@ -86,6 +86,10 @@ class _HouseRulesPageState extends State<HouseRulesPage> {
                   setState(() {
                     lastItem = const Text('No more itens');
                   });
+                } else {
+                  setState(() {
+                    lastItem = const CircularProgressIndicator();
+                  });
                 }
               },
               buildWhen: (previous, current) {

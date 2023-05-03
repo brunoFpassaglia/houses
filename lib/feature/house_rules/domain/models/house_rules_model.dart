@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:houses/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
 
 class HouseRulesModel implements HouseRules {
   @override

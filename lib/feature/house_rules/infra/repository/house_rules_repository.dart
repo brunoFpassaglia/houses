@@ -1,6 +1,6 @@
-import 'package:houses/domain/entities/house_rules.dart';
-import 'package:houses/domain/repository/house_rules_repository.dart';
-import 'package:houses/infra/datasources/house_rules_datasource.dart';
+import 'package:houses/feature/house_rules/domain/entities/house_rules.dart';
+import 'package:houses/feature/house_rules/domain/repository/house_rules_repository.dart';
+import 'package:houses/feature/house_rules/infra/datasources/house_rules_datasource.dart';
 
 class HouseRulesRepositoryImpl implements HouseRulesRepository {
   final HouseRulesDatasource _datasource;
